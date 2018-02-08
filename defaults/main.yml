@@ -1,0 +1,15 @@
+myhome_user: pistahh
+
+myhome_git_email: ""
+
+myhome_packages_bydistro:
+  Debian: vcsh,mr
+  Ubuntu: vcsh,mr
+  CentOS: myrepos
+
+myhome_packages: "{{ myhome_packages_bydistro[ansible_distribution] }}"
+
+myhome_mrrepo_url: https://github.com/Pistahh/dot-mr.git
+
+myhome_extra_yum_packages:
+ - https://kojipkgs.fedoraproject.org//packages/vcsh/1.20151229/4.fc27/noarch/vcsh-1.20151229-4.fc27.noarch.rpm

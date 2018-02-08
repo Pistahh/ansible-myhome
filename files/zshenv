@@ -1,0 +1,6 @@
+if [[ "$SUDO_USER" == "" ]]; then
+        _ZSH_ENVFILE=~/.zshenv-real
+else
+        _ZSH_ENVFILE=~${SUDO_USER}/.zshenv
+fi
+[[ -f $_ZSH_ENVFILE ]] && source $_ZSH_ENVFILE

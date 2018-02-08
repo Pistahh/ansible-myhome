@@ -1,0 +1,6 @@
+if [[ "$SUDO_USER" == "" ]]; then
+        _ZSH_RCFILE=~/.zshrc-real
+else
+        _ZSH_RCFILE=~${SUDO_USER}/.zshrc
+fi
+[[ -f $_ZSH_RCFILE ]] && source $_ZSH_RCFILE

@@ -1,0 +1,42 @@
+- name: Install user packages
+  package:
+    name: "{{ myhome_packages }}"
+    state: present
+
+- name: Install extra yum packages
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ myhome_extra_yum_packages }}"
+  when: ansible_pkg_mgr == "yum"
+
+- name: Clone mr config from github
+  shell: sudo -u {{ myhome_user }} vcsh clone {{ myhome_mrrepo_url }} mr >> /tmp/{{ myhome_user }}-vcsh.log 2>&1
+  args:
+      creates: /home/{{ myhome_user }}/.config/vcsh/repo.d/mr.git
+  register: mr_clone
+
+- name: Sync mr repos
+  shell: sudo -u {{ myhome_user }} mr up
+  args:
+      chdir: /home/{{ myhome_user }}
+  when: mr_clone.changed
+
+- name: Fix git email address
+  lineinfile:
+      path: /home/{{ myhome_user }}/.gitconfig
+      regexp: "email = "
+      line: "\temail = {{ myhome_git_email }}"
+  when: myhome_git_email != ""
+  tags: [ "email-fix" ]
+
+- name: Update root zsh dotfiles
+  copy:
+    src: files/{{ item }}
+    dest: /root/.{{ item }}
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - zshrc
+    - zshenv
