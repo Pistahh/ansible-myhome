@@ -1,0 +1,17 @@
+---
+dependencies: []
+
+galaxy_info:
+    author: Pistahh
+    description: Sets up my home the way I want.
+    license: unlicense
+    min_ansible_version: 2.4
+    platforms:
+        - name: Debian
+          versions:
+              - jessie
+              - stretch
+        - name: EL
+          versions:
+              - 6
+              - 7
